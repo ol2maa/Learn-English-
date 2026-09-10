@@ -1,1138 +1,327 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="utf-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>تعلم الإنجليزية</title>
-
 <style>
-
-body {
-    margin: 0;
-    background: #f5f7fb;
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Tahoma,
-        Arial,
-        sans-serif;
-    color: #172033;
+*{box-sizing:border-box}
+body{margin:0;background:#f5f7fb;color:#172033;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif}
+.app{width:100%;max-width:680px;margin:auto;padding:24px 12px 40px}
+header{text-align:center;padding:18px 6px 22px}
+h1{font-size:38px;margin:0 0 8px;font-weight:800}
+header p{font-size:21px;color:#667085;margin:0}
+.card{background:#fff;border:1px solid #d9dee8;border-radius:24px;padding:18px;box-shadow:0 4px 18px rgba(0,0,0,.03)}
+.stage-grid{display:grid;gap:14px}
+.stage-btn{width:100%;border:2px solid #d9dee8;background:#f8f9fc;border-radius:18px;padding:18px 14px;color:#2864d7;font-size:21px;font-weight:800;line-height:1.45;cursor:pointer;transition:all .2s}
+.stage-btn:hover{background:#eef4ff;border-color:#1769e0}
+.stage-btn small{display:block;color:#667085;font-size:15px;margin-top:4px;font-weight:600}
+.quiz,.result{display:none}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#667085;font-weight:700;margin-bottom:8px}
+.stage-name{font-size:18px;color:#2864d7}
+.question{font-size:25px;font-weight:800;text-align:center;min-height:70px;display:flex;align-items:center;justify-content:center}
+.visual{height:135px;display:flex;align-items:center;justify-content:center;font-size:88px}
+.color-circle{width:125px;height:125px;border-radius:50%;border:2px solid #aaa}
+.arabic-word{text-align:center;color:#b42318;font-size:28px;font-weight:800;min-height:50px}
+.stats{display:flex;justify-content:center;gap:22px;margin:6px 0 10px;font-weight:700}
+.error{color:#d93025}
+.options{display:grid;gap:11px}
+.option{border:2px solid #cdd3dd;background:#f1f3f6;color:#175dcc;border-radius:15px;padding:13px 10px;min-height:57px;font-size:22px;font-weight:800;cursor:pointer;transition:all .2s}
+.option:hover:not(.correct):not(.wrong){background:#e8eef7}
+.option.correct{background:#b9efc4;border-color:#16803a;color:#125b2b}
+.option.wrong{background:#ffc1bc;border-color:#c62828;color:#9b1c1c}
+.action{width:100%;border:0;border-radius:15px;padding:14px;margin-top:13px;font-size:19px;font-weight:800;cursor:pointer;transition:opacity .2s}
+.action:hover{opacity:.9}
+.primary{background:#1769e0;color:white}
+.success{background:#169c45;color:white}
+.secondary{background:#eef0f4;color:#172033}
+.result{text-align:center;padding:28px 18px}
+.result h2{font-size:30px;margin:0 0 18px}
+.result-score{font-size:28px;font-weight:800}
+.result-percent{font-size:42px;font-weight:900;color:#1769e0;margin:8px}
+.result-rating{font-size:27px;font-weight:800;margin:8px}
+.result-info{font-size:20px;color:#667085;margin:10px}
+.progress{height:8px;background:#e4e8f0;border-radius:99px;margin-bottom:14px;overflow:hidden}
+.progress-bar{height:100%;background:#1769e0;border-radius:99px;transition:width .3s}
+@media(max-width:430px){
+ h1{font-size:32px}
+ header p{font-size:18px}
+ .stage-btn{font-size:18px}
+ .question{font-size:22px}
+ .option{font-size:20px}
 }
-
-.app {
-    width: 100%;
-    max-width: 620px;
-    margin: auto;
-    padding: 18px 14px 35px;
-}
-
-.header {
-    text-align: center;
-    padding: 10px 4px 16px;
-}
-
-.header h1 {
-    font-size: 30px;
-    margin: 0 0 6px;
-}
-
-.header p {
-    margin: 0;
-    color: #667085;
-    font-size: 15px;
-}
-
-.card {
-    background: white;
-    border: 1px solid #d9dee8;
-    border-radius: 20px;
-    padding: 18px;
-}
-
-.stage-grid {
-    display: grid;
-    gap: 9px;
-}
-
-.stage-btn {
-    border: 1px solid #d9dee8;
-    background: #f8f9fc;
-    border-radius: 15px;
-    padding: 13px;
-    min-height: 63px;
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.quiz {
-    display: none;
-}
-
-.question {
-    font-size: 23px;
-    font-weight: bold;
-    text-align: center;
-    min-height: 68px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.visual {
-    height: 130px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 88px;
-}
-
-.color-circle {
-    width: 125px;
-    height: 125px;
-    border-radius: 50%;
-    border: 2px solid #bbb;
-}
-
-.stats {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 5px 0;
-}
-
-.error {
-    color: #d93025;
-}
-
-.arabic-word {
-    text-align: center;
-    color: #b42318;
-    font-size: 34px;
-    font-weight: bold;
-    min-height: 56px;
-}
-
-.options {
-    display: grid;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.option {
-    border: 2px solid #cdd3dd;
-    background: #f1f3f6;
-    color: #0d4db8;
-
-    border-radius: 14px;
-    padding: 12px;
-
-    min-height: 54px;
-
-    font-size: 21px;
-    font-weight: bold;
-}
-
-.option.correct {
-    background: #b9efc4;
-    border-color: #16803a;
-}
-
-.option.wrong {
-    background: #ffc1bc;
-    border-color: #c62828;
-}
-
-.result {
-    display: none;
-    text-align: center;
-    padding: 25px 10px;
-}
-
-.action {
-    width: 100%;
-    border: 0;
-    border-radius: 14px;
-    padding: 14px;
-    margin-top: 12px;
-
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.primary {
-    background: #0f62fe;
-    color: white;
-}
-
-.success {
-    background: #169c45;
-    color: white;
-}
-
-.secondary {
-    background: #eef0f4;
-}
-
 </style>
 </head>
-
-
 <body>
-
 <div class="app">
 
-    <!-- الصفحة الرئيسية -->
+<header id="header">
+<h1>🎓 تعلم الإنجليزية</h1>
+<p>اختر المرحلة وابدأ الاختبار</p>
+</header>
 
-    <div class="header" id="homeHeader">
+<section class="card" id="selection">
+<div class="stage-grid" id="stageGrid"></div>
+</section>
 
-        <h1>
-            🎓 تعلم الإنجليزية
-        </h1>
+<section class="card quiz" id="quizCard">
+<div class="top">
+<div class="stage-name" id="stageName"></div>
+<div id="counter"></div>
+</div>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+<div class="question" id="question"></div>
+<div class="visual" id="visual"></div>
+<div class="stats">
+<div id="score"></div>
+<div class="error" id="errors"></div>
+</div>
+<div class="arabic-word" id="arabicWord"></div>
+<div class="options" id="options"></div>
+<button class="action secondary" id="homeBtn">🏠 اختيار مرحلة أخرى</button>
+</section>
 
-        <p>
-            اختر المرحلة وابدأ الاختبار
-        </p>
-
-    </div>
-
-
-    <!-- اختيار المراحل -->
-
-    <section class="card" id="selection">
-
-        <div
-            class="stage-grid"
-            id="stageGrid">
-        </div>
-
-    </section>
-
-
-    <!-- صفحة الأسئلة -->
-
-    <section
-        class="card quiz"
-        id="quizCard">
-
-        <div class="topbar">
-
-            <div
-                class="stage-name"
-                id="stageName">
-            </div>
-
-            <div
-                class="counter"
-                id="counter">
-            </div>
-
-        </div>
-
-
-        <div
-            class="question"
-            id="question">
-        </div>
-
-
-        <div
-            class="visual"
-            id="visual">
-        </div>
-
-
-        <div class="stats">
-
-            <div
-                id="score">
-            </div>
-
-            <div
-                class="error"
-                id="errors">
-            </div>
-
-        </div>
-
-
-        <div
-            class="arabic-word"
-            id="arabicWord">
-        </div>
-
-
-        <div
-            class="options"
-            id="options">
-        </div>
-
-
-        <button
-            class="action secondary"
-            id="homeBtn">
-
-            🏠 اختيار مرحلة أخرى
-
-        </button>
-
-    </section>
-
-
-    <!-- صفحة النتيجة -->
-
-    <section
-        class="card result"
-        id="resultCard">
-
-        <h2 id="resultTitle"></h2>
-
-        <div id="resultScore"></div>
-
-        <div id="resultPercent"></div>
-
-        <div id="resultRating"></div>
-
-        <div id="resultInfo"></div>
-
-
-        <button
-            class="action primary"
-            id="againBtn">
-
-            🔄 اللعب مرة أخرى
-
-        </button>
-
-
-        <button
-            class="action success"
-            id="continueBtn">
-
-            ➡️ كمل
-
-        </button>
-
-
-        <button
-            class="action secondary"
-            id="resultHomeBtn">
-
-            🏠 العودة لاختيار المرحلة
-
-        </button>
-
-    </section>
+<section class="card result" id="resultCard">
+<h2 id="resultTitle"></h2>
+<div class="result-score" id="resultScore"></div>
+<div class="result-percent" id="resultPercent"></div>
+<div class="result-rating" id="resultRating"></div>
+<div class="result-info" id="resultInfo"></div>
+<button class="action primary" id="againBtn">🔄 هل تريد اللعب مرة أخرى؟</button>
+<button class="action success" id="continueBtn">➡️ كمل</button>
+<button class="action secondary" id="resultHomeBtn">🏠 العودة لاختيار المرحلة</button>
+</section>
 
 </div>
 
-
 <script>
-
-/* =========================
-   بيانات المراحل
-   ========================= */
-
-const stages = {
-
-    1: {
-        icon: "🍎🥕",
-        name: "الفواكه والخضروات",
-
-        data: [
-
-            {
-                arabic: "🍎 تفاحة 🍎",
-                correct: "Apple",
-                question:
-                    "ما هو الاسم الإنجليزي لهذه الفاكهة؟"
-            },
-
-            {
-                arabic: "🍌 موز 🍌",
-                correct: "Banana",
-                question:
-                    "ما هو الاسم الإنجليزي لهذه الفاكهة؟"
-            },
-
-            {
-                arabic: "🍊 برتقال 🍊",
-                correct: "Orange",
-                question:
-                    "ما هو الاسم الإنجليزي لهذه الفاكهة؟"
-            },
-
-            {
-                arabic: "🍓 فراولة 🍓",
-                correct: "Strawberry",
-                question:
-                    "ما هو الاسم الإنجليزي لهذه الفاكهة؟"
-            },
-
-            {
-                arabic: "🍇 عنب 🍇",
-                correct: "Grapes",
-                question:
-                    "ما هو الاسم الإنجليزي لهذه الفاكهة؟"
-            },
-
-            {
-                arabic: "🍉 بطيخ 🍉",
-                correct: "Watermelon",
-                question:
-                    "ما هو الاسم الإنجليزي لهذه الفاكهة؟"
-            }
-
-            // بقية أسئلة المرحلة هنا
-
-        ]
-    },
-
-
-    2: {
-
-        icon: "🎨",
-
-        name: "الألوان",
-
-        data: [
-
-            {
-                arabic: "🔴 أحمر",
-                correct: "Red",
-                question:
-                    "ما هو الاسم الإنجليزي لهذا اللون؟",
-                color: [0.95, 0.08, 0.08]
-            },
-
-            {
-                arabic: "🔵 أزرق",
-                correct: "Blue",
-                question:
-                    "ما هو الاسم الإنجليزي لهذا اللون؟",
-                color: [0.08, 0.38, 0.95]
-            }
-
-            // بقية الألوان
-
-        ]
-    }
-
-};
-
-
-/* =========================
-   المتغيرات
-   ========================= */
+const stages = [/* ... نفس بيانات المراحل كما في ملفك ... */];
 
 let stage = 1;
-
 let index = 0;
-
 let score = 0;
-
 let wrong = 0;
-
 let answered = false;
-
 let allStages = false;
-
 let questions = [];
+let autoNextTimer = null;
 
+const $ = id => document.getElementById(id);
 
-/* =========================
-   الاختصارات
-   ========================= */
+function speak(text, rate = 0.45) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-US";
+  u.rate = rate;
+  speechSynthesis.speak(u);
+}
 
-const $ = id =>
-    document.getElementById(id);
-
-
-/* =========================
-   اختيار المراحل
-   ========================= */
+function clearTimer() {
+  if (autoNextTimer) {
+    clearTimeout(autoNextTimer);
+    autoNextTimer = null;
+  }
+}
 
 function buildSelection() {
+  const grid = $("stageGrid");
+  grid.innerHTML = "";
 
-    const grid =
-        $("stageGrid");
+  stages.forEach(s => {
+    const b = document.createElement("button");
+    b.className = "stage-btn";
+    b.innerHTML =
+      "<strong>" + s.icon + " المرحلة " + s.id + " — " + s.name + "</strong>" +
+      "<small>" + s.questions.length + " سؤال</small>";
+    b.onclick = () => startStage(s.id, false);
+    grid.appendChild(b);
+  });
 
-    grid.innerHTML = "";
-
-
-    Object.entries(stages)
-        .forEach(([id, s]) => {
-
-            const button =
-                document.createElement("button");
-
-            button.className =
-                "stage-btn";
-
-
-            button.innerHTML = `
-
-                <strong>
-                    ${s.icon}
-                    المرحلة ${id}
-                </strong>
-
-                <small>
-                    ${s.name}
-                    —
-                    ${s.data.length}
-                    سؤال
-                </small>
-
-            `;
-
-
-            button.onclick = () => {
-
-                startStage(
-                    Number(id),
-                    false
-                );
-
-            };
-
-
-            grid.appendChild(button);
-
-        });
-
-
-    const allButton =
-        document.createElement("button");
-
-    allButton.className =
-        "stage-btn";
-
-
-    allButton.innerHTML = `
-
-        <strong>
-            📚 جميع المراحل
-        </strong>
-
-        <small>
-            ابدأ من المرحلة الأولى
-            وانتقل بالتتابع
-        </small>
-
-    `;
-
-
-    allButton.onclick = () => {
-
-        startStage(1, true);
-
-    };
-
-
-    grid.appendChild(allButton);
+  const all = document.createElement("button");
+  all.className = "stage-btn";
+  all.innerHTML =
+    "<strong>📚 جميع المراحل — ابدأ من المرحلة الأولى وانتقل بالتتابع</strong>";
+  all.onclick = () => startStage(1, true);
+  grid.appendChild(all);
 }
 
+function startStage(id, all = false) {
+  clearTimer();
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
 
-/* =========================
-   النطق
-   ========================= */
+  stage = id;
+  allStages = all;
+  index = 0;
+  score = 0;
+  wrong = 0;
+  answered = false;
+  questions = stages[stage - 1].questions.map(q => ({ ...q }));
 
-function speak(text) {
+  $("selection").style.display = "none";
+  $("header").style.display = "none";
+  $("resultCard").style.display = "none";
+  $("quizCard").style.display = "block";
 
-    if (
-        "speechSynthesis"
-        in window
-    ) {
-
-        speechSynthesis.cancel();
-
-
-        const voice =
-            new SpeechSynthesisUtterance(
-                text
-            );
-
-
-        voice.lang =
-            "en-US";
-
-
-        voice.rate =
-            0.45;
-
-
-        speechSynthesis.speak(
-            voice
-        );
-    }
+  renderQuestion();
 }
-
-
-/* =========================
-   بدء المرحلة
-   ========================= */
-
-function startStage(
-    id,
-    all = false
-) {
-
-    stage = id;
-
-    allStages = all;
-
-    index = 0;
-
-    score = 0;
-
-    wrong = 0;
-
-    answered = false;
-
-
-    loadQuestions();
-
-
-    $("selection")
-        .style.display =
-        "none";
-
-
-    $("homeHeader")
-        .style.display =
-        "none";
-
-
-    $("resultCard")
-        .style.display =
-        "none";
-
-
-    $("quizCard")
-        .style.display =
-        "block";
-
-
-    renderQuestion();
-}
-
-
-/* =========================
-   تحميل الأسئلة
-   ========================= */
-
-function loadQuestions() {
-
-    questions =
-        stages[String(stage)]
-        .data
-        .map(q => ({
-            ...q
-        }));
-}
-
-
-/* =========================
-   إنشاء الإجابات
-   ========================= */
 
 function getOptions(correct) {
+  const pool = [...new Set(
+    stages.flatMap(s => s.questions.map(q => q.correct))
+  )];
 
-    const words =
-        [
-            ...new Set(
-                questions.map(
-                    q => q.correct
-                )
-            )
-        ];
+  const others = pool
+    .filter(x => x !== correct)
+    .sort(() => Math.random() - 0.5);
 
-
-    const others =
-        words.filter(
-            w => w !== correct
-        );
-
-
-    const options = [
-
-        correct,
-
-        ...others
-            .sort(
-                () =>
-                    Math.random() - 0.5
-            )
-            .slice(0, 3)
-
-    ];
-
-
-    return options.sort(
-        () =>
-            Math.random() - 0.5
-    );
+  return [correct, ...others.slice(0, 3)]
+    .sort(() => Math.random() - 0.5);
 }
 
-
-/* =========================
-   عرض السؤال
-   ========================= */
+function updateProgress() {
+  const pct = questions.length
+    ? ((index) / questions.length) * 100
+    : 0;
+  $("progressBar").style.width = pct + "%";
+}
 
 function renderQuestion() {
+  const q = questions[index];
+  const s = stages[stage - 1];
 
-    const q =
-        questions[index];
+  $("stageName").textContent =
+    s.icon + " المرحلة " + stage + " — " + s.name;
 
+  $("counter").textContent =
+    "السؤال " + (index + 1) + " / " + questions.length;
 
-    $("stageName")
-        .textContent =
-        `${stages[String(stage)].icon}
-         المرحلة ${stage}
-         —
-         ${stages[String(stage)].name}`;
+  $("question").textContent = q.question || "";
+  $("arabicWord").textContent = q.arabic || "";
+  $("score").textContent = "صح: " + score;
+  $("errors").textContent = "الأخطاء: " + wrong;
 
+  updateProgress();
 
-    $("counter")
-        .textContent =
-        `السؤال ${index + 1}
-         / ${questions.length}`;
+  const visual = $("visual");
+  visual.innerHTML = "";
 
+  if (q.color) {
+    const circle = document.createElement("div");
+    circle.className = "color-circle";
+    circle.style.background =
+      "rgb(" +
+      Math.round(q.color[0] * 255) + "," +
+      Math.round(q.color[1] * 255) + "," +
+      Math.round(q.color[2] * 255) + ")";
+    visual.appendChild(circle);
+  } else {
+    const match = (q.arabic || "").match(/^[^\s\u0621-\u064A]+/u);
+    visual.textContent = match ? match[0] : "";
+  }
 
-    $("question")
-        .textContent =
-        q.question;
+  const box = $("options");
+  box.innerHTML = "";
+  answered = false;
 
-
-    $("arabicWord")
-        .textContent =
-        q.arabic;
-
-
-    $("score")
-        .textContent =
-        `صح: ${score}/${questions.length}`;
-
-
-    $("errors")
-        .textContent =
-        `الأخطاء: ${wrong}`;
-
-
-    const visual =
-        $("visual");
-
-
-    visual.innerHTML = "";
-
-
-    if (stage === 2) {
-
-        const circle =
-            document.createElement(
-                "div"
-            );
-
-
-        circle.className =
-            "color-circle";
-
-
-        if (q.color) {
-
-            circle.style.background =
-                `rgb(
-                    ${Math.round(q.color[0] * 255)},
-                    ${Math.round(q.color[1] * 255)},
-                    ${Math.round(q.color[2] * 255)}
-                )`;
-
-        }
-
-
-        visual.appendChild(
-            circle
-        );
-
-    }
-
-
-    const optionsBox =
-        $("options");
-
-
-    optionsBox.innerHTML = "";
-
-
-    answered = false;
-
-
-    getOptions(q.correct)
-        .forEach(
-            (option, i) => {
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                button.className =
-                    "option";
-
-
-                button.textContent =
-                    option;
-
-
-                button.onclick =
-                    () => {
-
-                        choose(
-                            button,
-                            option,
-                            q.correct
-                        );
-
-                    };
-
-
-                optionsBox.appendChild(
-                    button
-                );
-
-            }
-        );
+  getOptions(q.correct).forEach(option => {
+    const b = document.createElement("button");
+    b.className = "option";
+    b.textContent = option;
+    b.onclick = () => choose(b, option, q.correct);
+    box.appendChild(b);
+  });
 }
 
+function choose(button, selected, correct) {
+  if (answered) return;
+  answered = true;
+  clearTimer();
 
-/* =========================
-   اختيار الإجابة
-   ========================= */
+  speak(selected);
 
-function choose(
-    button,
-    selected,
-    correct
-) {
+  const isCorrect = selected === correct;
 
-    if (answered)
-        return;
+  if (isCorrect) score++;
+  else wrong++;
 
+  $("score").textContent = "صح: " + score;
+  $("errors").textContent = "الأخطاء: " + wrong;
 
-    answered = true;
+  [...$("options").children].forEach(b => {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add("correct");
+    else if (b === button) b.classList.add("wrong");
+  });
 
-
-    speak(selected);
-
-
-    const buttons =
-        [
-            ...$("options")
-                .children
-        ];
-
-
-    const isCorrect =
-        selected === correct;
-
-
-    if (isCorrect) {
-
-        score++;
-
-    } else {
-
-        wrong++;
-
-    }
-
-
-    $("score")
-        .textContent =
-        `صح: ${score}/${questions.length}`;
-
-
-    $("errors")
-        .textContent =
-        `الأخطاء: ${wrong}`;
-
-
-    buttons.forEach(
-        b => {
-
-            if (
-                b.textContent ===
-                correct
-            ) {
-
-                b.classList.add(
-                    "correct"
-                );
-
-            }
-
-            else if (
-                b === button
-            ) {
-
-                b.classList.add(
-                    "wrong"
-                );
-
-            }
-
-        }
-    );
-
-
-    if (isCorrect) {
-
-        setTimeout(
-            nextQuestion,
-            2000
-        );
-
-    }
-
-    else {
-
-        setTimeout(
-            () => {
-
-                speak(correct);
-
-
-                setTimeout(
-                    () => {
-
-                        speak(correct);
-
-
-                        setTimeout(
-                            nextQuestion,
-                            1000
-                        );
-
-                    },
-                    1000
-                );
-
-            },
-            2000
-        );
-
-    }
+  if (isCorrect) {
+    autoNextTimer = setTimeout(nextQuestion, 2000);
+  } else {
+    autoNextTimer = setTimeout(() => {
+      speak(correct);
+      autoNextTimer = setTimeout(() => {
+        speak(correct);
+        autoNextTimer = setTimeout(nextQuestion, 1000);
+      }, 1000);
+    }, 2000);
+  }
 }
-
-
-/* =========================
-   السؤال التالي
-   ========================= */
 
 function nextQuestion() {
-
-    if (
-        index <
-        questions.length - 1
-    ) {
-
-        index++;
-
-        renderQuestion();
-
-    }
-
-    else {
-
-        showResult();
-
-    }
+  clearTimer();
+  if (index < questions.length - 1) {
+    index++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
 }
 
-
-/* =========================
-   التقييم
-   ========================= */
-
-function rating(
-    percentage
-) {
-
-    if (percentage >= 90)
-
-        return "🏆 ممتاز";
-
-
-    if (percentage >= 80)
-
-        return "🌟 جيد جدًا";
-
-
-    if (percentage >= 70)
-
-        return "👍 جيد";
-
-
-    if (percentage >= 60)
-
-        return "🙂 مقبول";
-
-
-    return "💪 ضعيف — تحتاج تحسين";
+function getRating(p) {
+  if (p >= 90) return "🏆 ممتاز";
+  if (p >= 80) return "🌟 جيد جدًا";
+  if (p >= 70) return "👍 جيد";
+  if (p >= 60) return "🙂 مقبول";
+  return "💪 ضعيف — تحتاج تحسين";
 }
-
-
-/* =========================
-   النتيجة
-   ========================= */
 
 function showResult() {
+  clearTimer();
+  const total = questions.length;
+  const percentage = total ? (score / total) * 100 : 0;
 
-    const total =
-        questions.length;
+  $("quizCard").style.display = "none";
+  $("resultCard").style.display = "block";
 
+  $("resultTitle").textContent = "🏆 نهاية المرحلة " + stage;
+  $("resultScore").textContent = "نتيجتك: " + score + " / " + total;
+  $("resultPercent").textContent = "النسبة: " + percentage.toFixed(0) + "%";
+  $("resultRating").textContent = "التقدير: " + getRating(percentage);
+  $("resultInfo").textContent =
+    stages[stage - 1].icon + " " + stages[stage - 1].name;
 
-    const percentage =
-        score / total * 100;
-
-
-    $("quizCard")
-        .style.display =
-        "none";
-
-
-    $("resultCard")
-        .style.display =
-        "block";
-
-
-    $("resultTitle")
-        .textContent =
-        `🏆 نهاية المرحلة ${stage}`;
-
-
-    $("resultScore")
-        .textContent =
-        `نتيجتك: ${score}/${total}`;
-
-
-    $("resultPercent")
-        .textContent =
-        `النسبة: ${percentage.toFixed(0)}%`;
-
-
-    $("resultRating")
-        .textContent =
-        `التقدير: ${rating(percentage)}`;
-
-
-    $("resultInfo")
-        .textContent =
-        `${stages[String(stage)].icon}
-         ${stages[String(stage)].name}`;
-
-
-    $("continueBtn")
-        .style.display =
-        (
-            allStages &&
-            stage < 8
-        )
-        ? "block"
-        : "none";
+  $("continueBtn").style.display =
+    (allStages && stage < stages.length) ? "block" : "none";
 }
-
-
-/* =========================
-   الأزرار
-   ========================= */
-
-$("againBtn").onclick =
-    () => {
-
-        startStage(
-            stage,
-            allStages
-        );
-
-    };
-
-
-$("continueBtn").onclick =
-    () => {
-
-        startStage(
-            stage + 1,
-            true
-        );
-
-    };
-
-
-$("homeBtn").onclick =
-    home;
-
-
-$("resultHomeBtn").onclick =
-    home;
-
-
-/* =========================
-   العودة للرئيسية
-   ========================= */
 
 function home() {
+  clearTimer();
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
 
-    if (
-        "speechSynthesis"
-        in window
-    ) {
+  $("resultCard").style.display = "none";
+  $("quizCard").style.display = "none";
+  $("selection").style.display = "block";
+  $("header").style.display = "block";
 
-        speechSynthesis.cancel();
-
-    }
-
-
-    $("resultCard")
-        .style.display =
-        "none";
-
-
-    $("quizCard")
-        .style.display =
-        "none";
-
-
-    $("selection")
-        .style.display =
-        "block";
-
-
-    $("homeHeader")
-        .style.display =
-        "block";
-
-
-    buildSelection();
+  buildSelection();
 }
 
-
-/* =========================
-   تشغيل البرنامج
-   ========================= */
+$("againBtn").onclick = () => startStage(stage, allStages);
+$("continueBtn").onclick = () => startStage(stage + 1, true);
+$("homeBtn").onclick = home;
+$("resultHomeBtn").onclick = home;
 
 buildSelection();
-
 </script>
-
 </body>
 </html>

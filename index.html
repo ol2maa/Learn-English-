@@ -975,7 +975,7 @@ function speak(text) {
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "en-US";
-  u.rate = 1.5;
+  u.rate = 1.0;
   window.speechSynthesis.speak(u);
 }
 

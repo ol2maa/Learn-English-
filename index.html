@@ -1099,6 +1099,11 @@ function renderQuestion() {
 
   questionLabel.textContent = q.question;
   stageLabel.textContent = stageData[currentStage].name;
+  if (currentStage === 9) {
+    nameLabel.style.color = "white";
+  } else {
+    nameLabel.style.color = "#cc1a1a";
+  }
   nameLabel.textContent = q.arabic;
   scoreLabel.textContent = `صح: ${stageData[currentStage].score}/${currentQuestions.length}`;
   errorsLabel.textContent = `الأخطاء: ${stageData[currentStage].wrong}`;

@@ -53,6 +53,11 @@
     transition: background 0.15s;
   }
   .stage-btn:active { background: #d8d8d8; }
+  .stage-btn.all-stages {
+    background: #e6f0ff;
+    border-color: #3399ff;
+    color: #0d59e6;
+  }
   #quiz {
     display: none;
     flex-direction: column;
@@ -167,6 +172,36 @@
   }
   #result-label.correct-text { color: green; }
   #result-label.wrong-text { color: red; }
+
+  /* شريط الأزرار داخل السؤال */
+  #quiz-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+  }
+  .quiz-ctrl-btn {
+    flex: 1;
+    padding: 12px 8px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: filter 0.15s;
+  }
+  .quiz-ctrl-btn:active { filter: brightness(0.9); }
+  .quiz-ctrl-btn.retry {
+    background: #ffcc33;
+    color: #111;
+  }
+  .quiz-ctrl-btn.home {
+    background: #d9d9d9;
+    color: #333;
+    border: 1px solid #bfbfbf;
+  }
+
   #results {
     display: none;
     flex-direction: column;
@@ -178,7 +213,7 @@
     overflow-y: auto;
   }
   #results h2 {
-    font-size: 28px;
+    font-size: 26px;
     margin-bottom: 12px;
     color: #111;
   }
@@ -199,10 +234,69 @@
     cursor: pointer;
     color: white;
   }
-  .result-btn.replay { background: #3399ff; }
+  .result-btn.replay { background: #ff9933; }
   .result-btn.continue { background: #1aa633; }
   .result-btn.back { background: #ebebeb; color: #111; border: 1px solid #bfbfbf; }
   .result-btn:active { filter: brightness(0.9); }
+
+  /* صفحة الإحصائيات النهائية */
+  #final-results {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    padding: 20px 16px;
+    overflow-y: auto;
+    text-align: center;
+  }
+  #final-results h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #111;
+  }
+  .stats-table {
+    width: 100%;
+    max-width: 460px;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .stats-table th {
+    background: #1a66e6;
+    color: white;
+    padding: 10px 6px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .stats-table td {
+    padding: 10px 6px;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .stats-table tr:nth-child(even) td { background: #fafafa; }
+  .stats-table tr:last-child td { border-bottom: none; }
+  .stats-table .stage-name-cell {
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .stats-table .good { color: green; font-weight: 700; }
+  .stats-table .bad { color: red; font-weight: 700; }
+
+  .final-percent {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a66e6;
+    margin-bottom: 8px;
+  }
+  .final-rating {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
 </style>
 </head>
 <body>
@@ -223,8 +317,13 @@
     <div id="name-label"></div>
     <div id="options"></div>
     <div id="result-label"></div>
+    <div id="quiz-controls">
+      <button class="quiz-ctrl-btn retry" id="btn-retry-stage">🔄 إعادة المرحلة</button>
+      <button class="quiz-ctrl-btn home" id="btn-home">🏠 العودة للقوائم</button>
+    </div>
   </div>
   <div id="results"></div>
+  <div id="final-results"></div>
 </div>
 
 <script>
@@ -932,15 +1031,15 @@ const emojiMaps = {
 
 // ======================= STATE =======================
 const stageData = {
-  1: {questions: fruitQuestions, name: "المرحلة الأولى 🍎🥕", score: 0, wrong: 0},
-  2: {questions: colorQuestions, name: "المرحلة الثانية 🎨", score: 0, wrong: 0},
-  3: {questions: schoolQuestions, name: "المرحلة الثالثة 🏫", score: 0, wrong: 0},
-  4: {questions: houseQuestions, name: "المرحلة الرابعة 🏠", score: 0, wrong: 0},
-  5: {questions: verbQuestions, name: "المرحلة الخامسة 🔤", score: 0, wrong: 0},
-  6: {questions: bodyQuestions, name: "المرحلة السادسة 🧍", score: 0, wrong: 0},
-  7: {questions: transportQuestions, name: "المرحلة السابعة 🚗✈️", score: 0, wrong: 0},
-  8: {questions: jobsQuestions, name: "المرحلة الثامنة 👨‍⚕️👷", score: 0, wrong: 0},
-  9: {questions: numberQuestions, name: "المرحلة التاسعة 🔢", score: 0, wrong: 0}
+  1: {questions: fruitQuestions, name: "المرحلة الأولى 🍎🥕", shortName: "الأولى 🍎🥕", score: 0, wrong: 0},
+  2: {questions: colorQuestions, name: "المرحلة الثانية 🎨", shortName: "الثانية 🎨", score: 0, wrong: 0},
+  3: {questions: schoolQuestions, name: "المرحلة الثالثة 🏫", shortName: "الثالثة 🏫", score: 0, wrong: 0},
+  4: {questions: houseQuestions, name: "المرحلة الرابعة 🏠", shortName: "الرابعة 🏠", score: 0, wrong: 0},
+  5: {questions: verbQuestions, name: "المرحلة الخامسة 🔤", shortName: "الخامسة 🔤", score: 0, wrong: 0},
+  6: {questions: bodyQuestions, name: "المرحلة السادسة 🧍", shortName: "السادسة 🧍", score: 0, wrong: 0},
+  7: {questions: transportQuestions, name: "المرحلة السابعة 🚗✈️", shortName: "السابعة 🚗✈️", score: 0, wrong: 0},
+  8: {questions: jobsQuestions, name: "المرحلة الثامنة 👨‍⚕️👷", shortName: "الثامنة 👨‍⚕️👷", score: 0, wrong: 0},
+  9: {questions: numberQuestions, name: "المرحلة التاسعة 🔢", shortName: "التاسعة 🔢", score: 0, wrong: 0}
 };
 
 let currentStage = 1;
@@ -954,10 +1053,14 @@ let allStagesMode = true;
 let transitionTimer = null;
 let voiceTimers = [];
 
+// إحصائيات كل مرحلة في وضع "جميع المراحل"
+let allStagesStats = {};
+
 const stageSel = document.getElementById("stage-selection");
 const stageButtonsContainer = document.getElementById("stage-buttons-container");
 const quizDiv = document.getElementById("quiz");
 const resultsDiv = document.getElementById("results");
+const finalResultsDiv = document.getElementById("final-results");
 const questionLabel = document.getElementById("question-label");
 const stageLabel = document.getElementById("stage-label");
 const emojiDisplay = document.getElementById("emoji-display");
@@ -968,6 +1071,8 @@ const scoreLabel = document.getElementById("score-label");
 const nameLabel = document.getElementById("name-label");
 const optionsDiv = document.getElementById("options");
 const resultLabel = document.getElementById("result-label");
+const btnRetryStage = document.getElementById("btn-retry-stage");
+const btnHome = document.getElementById("btn-home");
 
 // ======================= SPEECH =======================
 function speak(text) {
@@ -988,6 +1093,7 @@ function clearTimers() {
 
 // ======================= STAGE SELECTION =======================
 const stageButtonsData = [
+  ["📚  جميع المراحل\nمن الأولى إلى التاسعة", 0],
   ["🍎🥕  المرحلة الأولى\nالفواكه والخضروات", 1],
   ["🎨  المرحلة الثانية\nالألوان", 2],
   ["🏫  المرحلة الثالثة\nالمدرسة", 3],
@@ -996,8 +1102,7 @@ const stageButtonsData = [
   ["🧍  المرحلة السادسة\nالجسم وأجزاؤه", 6],
   ["🚗✈️  المرحلة السابعة\nالمواصلات", 7],
   ["👨‍⚕️👷  المرحلة الثامنة\nالوظائف وما حولها", 8],
-  ["🔢  المرحلة التاسعة\nالأرقام (1-100)", 9],
-  ["📚  جميع المراحل", 0]
+  ["🔢  المرحلة التاسعة\nالأرقام (1-100)", 9]
 ];
 
 function buildStageButtons() {
@@ -1005,6 +1110,7 @@ function buildStageButtons() {
   stageButtonsData.forEach(([title, val]) => {
     const btn = document.createElement("button");
     btn.className = "stage-btn";
+    if (val === 0) btn.classList.add("all-stages");
     btn.textContent = title;
     btn.onclick = () => selectStage(val);
     stageButtonsContainer.appendChild(btn);
@@ -1016,27 +1122,33 @@ function showStageSelection() {
   stageSel.style.display = "block";
   quizDiv.style.display = "none";
   resultsDiv.style.display = "none";
+  finalResultsDiv.style.display = "none";
   buildStageButtons();
+  // تصفير إحصائيات جميع المراحل
   for (let k in stageData) { stageData[k].score = 0; stageData[k].wrong = 0; }
+  allStagesStats = {};
 }
 
 function selectStage(val) {
   clearTimers();
+  // إعادة توليد أسئلة الأرقام إذا لزم
+  numberQuestions = generateNumberQuestions();
+  stageData[9].questions = numberQuestions;
+
   if (val === 0) {
     allStagesMode = true;
     currentStage = 1;
+    // تصفير إحصائيات جميع المراحل
+    for (let k in stageData) { stageData[k].score = 0; stageData[k].wrong = 0; }
+    allStagesStats = {};
   } else {
     allStagesMode = false;
     currentStage = val;
-  }
-  // إعادة توليد أسئلة الأرقام
-  if (val === 9 || val === 0) {
-    numberQuestions = generateNumberQuestions();
-    stageData[9].questions = numberQuestions;
+    stageData[currentStage].score = 0;
+    stageData[currentStage].wrong = 0;
+    allStagesStats = {};
   }
   currentIndex = 0;
-  stageData[currentStage].score = 0;
-  stageData[currentStage].wrong = 0;
   answered = false;
   loadQuestion();
   showQuizScreen();
@@ -1088,6 +1200,7 @@ function loadQuestion() {
 function showQuizScreen() {
   stageSel.style.display = "none";
   resultsDiv.style.display = "none";
+  finalResultsDiv.style.display = "none";
   quizDiv.style.display = "flex";
   renderQuestion();
 }
@@ -1099,8 +1212,9 @@ function renderQuestion() {
 
   questionLabel.textContent = q.question;
   stageLabel.textContent = stageData[currentStage].name;
+
   if (currentStage === 9) {
-    nameLabel.style.color = "white";
+    nameLabel.style.color = "#333";
   } else {
     nameLabel.style.color = "#cc1a1a";
   }
@@ -1196,6 +1310,16 @@ function nextQuestion() {
     loadQuestion();
     renderQuestion();
   } else {
+    // انتهت المرحلة الحالية
+    if (allStagesMode) {
+      // احفظ إحصائيات المرحلة الحالية
+      allStagesStats[currentStage] = {
+        score: stageData[currentStage].score,
+        wrong: stageData[currentStage].wrong,
+        total: currentQuestions.length,
+        name: stageData[currentStage].shortName
+      };
+    }
     showResults();
   }
 }
@@ -1212,6 +1336,7 @@ function getRating(percentage) {
 function showResults() {
   quizDiv.style.display = "none";
   resultsDiv.style.display = "flex";
+  finalResultsDiv.style.display = "none";
   clearTimers();
 
   const total = currentQuestions.length;
@@ -1224,22 +1349,90 @@ function showResults() {
     <div class="final-score">نتيجتك: ${score}/${total}</div>
     <div class="percent">النسبة: ${Math.round(pct)}%</div>
     <div class="rating" style="color:${ratingColor}">التقدير: ${rating}</div>
-    <button class="result-btn replay" onclick="showStageSelection()">🔄 هل تريد اللعب مرة أخرى؟</button>`;
+    <button class="result-btn replay" onclick="retryCurrentStage()">🔄 إعادة المرحلة</button>`;
 
-  const canContinue = allStagesMode && currentStage < 9;
-  if (canContinue) {
+  // زر "كمل" فقط في وضع جميع المراحل
+  if (allStagesMode && currentStage < 9) {
     html += `<button class="result-btn continue" onclick="continueToNextStage()">➡️ كمل</button>`;
   }
 
-  html += `<button class="result-btn back" onclick="showStageSelection()">🏠 العودة لاختيار المرحلة</button>`;
+  // لو وصلنا للمرحلة 9 في وضع جميع المراحل — زر لعرض الإحصائيات النهائية
+  if (allStagesMode && currentStage === 9) {
+    html += `<button class="result-btn continue" onclick="showFinalAllStagesResults()">🎓 عرض النتيجة النهائية</button>`;
+  }
+
+  html += `<button class="result-btn back" onclick="goHomeWithConfirm()">🏠 العودة للقوائم</button>`;
 
   resultsDiv.innerHTML = html;
+}
+
+// ======================= FINAL RESULTS (ALL STAGES) =======================
+function showFinalAllStagesResults() {
+  quizDiv.style.display = "none";
+  resultsDiv.style.display = "none";
+  finalResultsDiv.style.display = "flex";
+  clearTimers();
+
+  let totalScore = 0;
+  let totalQuestions = 0;
+
+  let html = `<h2>🎓 النتيجة النهائية — جميع المراحل</h2>
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>المرحلة</th>
+          <th>صح</th>
+          <th>خطأ</th>
+          <th>النسبة</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+  for (let s = 1; s <= 9; s++) {
+    const st = allStagesStats[s] || { score: 0, wrong: 0, total: 1, name: stageData[s].shortName };
+    totalScore += st.score;
+    totalQuestions += st.total;
+    const pct = st.total > 0 ? Math.round((st.score / st.total) * 100) : 0;
+    html += `<tr>
+      <td class="stage-name-cell">${st.name}</td>
+      <td class="good">${st.score}</td>
+      <td class="bad">${st.wrong}</td>
+      <td>${pct}%</td>
+    </tr>`;
+  }
+
+  html += `</tbody></table>`;
+
+  const finalPct = totalQuestions > 0 ? (totalScore / totalQuestions) * 100 : 0;
+  const [rating, ratingColor] = getRating(finalPct);
+
+  html += `<div class="final-percent">النسبة النهائية: ${Math.round(finalPct)}%</div>
+    <div class="final-rating" style="color:${ratingColor}">التقدير العام: ${rating}</div>
+    <button class="result-btn replay" onclick="restartAllStages()">🔄 إعادة جميع المراحل</button>
+    <button class="result-btn back" onclick="goHomeWithConfirm()">🏠 العودة للقوائم</button>`;
+
+  finalResultsDiv.innerHTML = html;
+}
+
+// ======================= CONTROL BUTTONS =======================
+function retryCurrentStage() {
+  clearTimers();
+  stageData[currentStage].score = 0;
+  stageData[currentStage].wrong = 0;
+  // لو كنا في وضع جميع المراحل، أزل إحصائية هذه المرحلة فقط (سيُعاد احتسابها)
+  if (allStagesMode && allStagesStats[currentStage]) {
+    delete allStagesStats[currentStage];
+  }
+  currentIndex = 0;
+  answered = false;
+  loadQuestion();
+  showQuizScreen();
 }
 
 function continueToNextStage() {
   clearTimers();
   const next = currentStage + 1;
-  if (next > 9) { showStageSelection(); return; }
+  if (next > 9) { showFinalAllStagesResults(); return; }
   if (next === 9) {
     numberQuestions = generateNumberQuestions();
     stageData[9].questions = numberQuestions;
@@ -1253,8 +1446,52 @@ function continueToNextStage() {
   showQuizScreen();
 }
 
-window.showStageSelection = showStageSelection;
+function restartAllStages() {
+  clearTimers();
+  for (let k in stageData) { stageData[k].score = 0; stageData[k].wrong = 0; }
+  allStagesStats = {};
+  numberQuestions = generateNumberQuestions();
+  stageData[9].questions = numberQuestions;
+  allStagesMode = true;
+  currentStage = 1;
+  currentIndex = 0;
+  answered = false;
+  loadQuestion();
+  showQuizScreen();
+}
+
+function goHomeWithConfirm() {
+  const ok = confirm("هل أنت متأكد؟ سيتم تصفير جميع المراحل والبدء من جديد.");
+  if (!ok) return;
+  clearTimers();
+  showStageSelection();
+}
+
+// ربط أزرار التحكم داخل السؤال
+btnRetryStage.onclick = () => {
+  clearTimers();
+  stageData[currentStage].score = 0;
+  stageData[currentStage].wrong = 0;
+  if (allStagesMode && allStagesStats[currentStage]) {
+    delete allStagesStats[currentStage];
+  }
+  currentIndex = 0;
+  answered = false;
+  loadQuestion();
+  renderQuestion();
+};
+
+btnHome.onclick = () => {
+  goHomeWithConfirm();
+};
+
+// ربط الدوال بالنافذة
+window.retryCurrentStage = retryCurrentStage;
 window.continueToNextStage = continueToNextStage;
+window.restartAllStages = restartAllStages;
+window.showFinalAllStagesResults = showFinalAllStagesResults;
+window.goHomeWithConfirm = goHomeWithConfirm;
+window.showStageSelection = showStageSelection;
 
 window.onload = () => {
   showStageSelection();

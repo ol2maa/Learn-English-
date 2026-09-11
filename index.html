@@ -25,278 +25,131 @@
     display: flex;
     flex-direction: column;
   }
-  #stage-selection {
-    padding: 20px 16px;
-    overflow-y: auto;
-    height: 100%;
-  }
-  #stage-selection h1 {
-    font-size: 28px;
-    text-align: center;
-    margin: 16px 0 24px;
-    color: #111;
-  }
+  #stage-selection { padding: 20px 16px; overflow-y: auto; height: 100%; }
+  #stage-selection h1 { font-size: 28px; text-align: center; margin: 16px 0 24px; color: #111; }
   .stage-btn {
-    display: block;
-    width: 100%;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-    font-size: 17px;
-    font-weight: 700;
-    text-align: center;
-    background: #ebebeb;
-    border: 1px solid #bfbfbf;
-    border-radius: 14px;
-    cursor: pointer;
-    color: #111;
-    white-space: pre-line;
-    transition: background 0.15s;
+    display: block; width: 100%; padding: 14px 16px; margin-bottom: 8px;
+    font-size: 17px; font-weight: 700; text-align: center;
+    background: #ebebeb; border: 1px solid #bfbfbf; border-radius: 14px;
+    cursor: pointer; color: #111; white-space: pre-line; transition: background 0.15s;
   }
   .stage-btn:active { background: #d8d8d8; }
-  .stage-btn.all-stages {
-    background: #e6f0ff;
-    border-color: #3399ff;
-    color: #0d59e6;
-  }
+  .stage-btn.all-stages { background: #e6f0ff; border-color: #3399ff; color: #0d59e6; }
+  .stage-btn.spelling-stage { background: #fff4e6; border-color: #ff9933; color: #cc6600; }
   #quiz {
+    display: none; flex-direction: column; height: 100%;
+    padding: 8px 12px 12px; overflow-y: auto;
+  }
+  #question-label { font-size: 20px; font-weight: 700; text-align: center; color: #111; padding: 8px 4px; line-height: 1.3; }
+  #stage-label { font-size: 17px; font-weight: 700; text-align: center; color: #2659bf; padding: 4px 0; }
+  #emoji-display {
+    font-size: 84px; text-align: center; padding: 8px 0; line-height: 1.2;
+    min-height: 110px; display: flex; align-items: center; justify-content: center;
+  }
+  #color-circle-wrap { display: flex; justify-content: center; align-items: center; padding: 8px 0; min-height: 110px; }
+  #color-circle { width: 110px; height: 110px; border-radius: 50%; border: 2px solid #bfbfbf; }
+  #errors-label { font-size: 17px; font-weight: 700; text-align: center; color: red; padding: 4px 0; }
+  #score-label { font-size: 19px; font-weight: 700; text-align: center; color: #2673e6; padding: 4px 0; }
+  #name-label { font-size: 32px; font-weight: 700; text-align: center; color: #cc1a1a; padding: 4px 0; }
+
+  /* المرحلة العاشرة: إدخال نصي */
+  #spelling-wrap {
     display: none;
     flex-direction: column;
-    height: 100%;
-    padding: 8px 12px 12px;
-    overflow-y: auto;
-  }
-  #question-label {
-    font-size: 20px;
-    font-weight: 700;
-    text-align: center;
-    color: #111;
-    padding: 8px 4px;
-    line-height: 1.3;
-  }
-  #stage-label {
-    font-size: 17px;
-    font-weight: 700;
-    text-align: center;
-    color: #2659bf;
-    padding: 4px 0;
-  }
-  #emoji-display {
-    font-size: 84px;
-    text-align: center;
-    padding: 8px 0;
-    line-height: 1.2;
-    min-height: 110px;
-    display: flex;
     align-items: center;
-    justify-content: center;
-  }
-  #color-circle-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 0;
-    min-height: 110px;
-  }
-  #color-circle {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    border: 2px solid #bfbfbf;
-  }
-  #errors-label {
-    font-size: 17px;
-    font-weight: 700;
-    text-align: center;
-    color: red;
-    padding: 4px 0;
-  }
-  #score-label {
-    font-size: 19px;
-    font-weight: 700;
-    text-align: center;
-    color: #2673e6;
-    padding: 4px 0;
-  }
-  #name-label {
-    font-size: 32px;
-    font-weight: 700;
-    text-align: center;
-    color: #cc1a1a;
-    padding: 4px 0;
-  }
-  #options {
-    display: flex;
-    flex-direction: column;
     gap: 12px;
-    margin-top: 12px;
+    padding: 12px 0;
   }
-  .opt-btn {
-    display: block;
+  #spelling-emoji { font-size: 84px; text-align: center; line-height: 1.2; }
+  #spelling-input {
     width: 100%;
-    padding: 14px;
-    font-size: 22px;
+    max-width: 360px;
+    padding: 14px 16px;
+    font-size: 24px;
     font-weight: 700;
     text-align: center;
-    background: #ebebeb;
-    color: #0d59e6;
-    border: 2px solid #b3b3b3;
+    border: 3px solid #b3b3b3;
     border-radius: 14px;
-    cursor: pointer;
+    color: #0d59e6;
+    outline: none;
+    direction: ltr;
+    font-family: inherit;
+    background: white;
+  }
+  #spelling-input:focus { border-color: #3399ff; background: #f5faff; }
+  #spelling-input.correct-input { border-color: green !important; background: #e6ffe6 !important; color: green !important; }
+  #spelling-input.wrong-input { border-color: red !important; background: #ffe6e6 !important; color: red !important; }
+  #spelling-buttons { display: flex; gap: 10px; width: 100%; max-width: 360px; }
+  .spelling-btn {
+    flex: 1; padding: 14px 8px; font-size: 17px; font-weight: 700;
+    border: none; border-radius: 14px; cursor: pointer; color: white;
+    transition: filter 0.15s;
+  }
+  .spelling-btn:active { filter: brightness(0.9); }
+  .spelling-btn.check { background: #1aa633; }
+  .spelling-btn.check:disabled { background: #a0c8a8; cursor: not-allowed; }
+  .spelling-btn.replay { background: #3399ff; }
+
+  #options { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+  .opt-btn {
+    display: block; width: 100%; padding: 14px; font-size: 22px; font-weight: 700;
+    text-align: center; background: #ebebeb; color: #0d59e6;
+    border: 2px solid #b3b3b3; border-radius: 14px; cursor: pointer;
     transition: background 0.15s, border-color 0.15s;
   }
   .opt-btn:active { background: #d8d8d8; }
-  .opt-btn.correct {
-    background: #4dcc4d !important;
-    border-color: green !important;
-    border-width: 3px !important;
-    color: white !important;
-  }
-  .opt-btn.wrong {
-    background: #ff4d4d !important;
-    border-color: red !important;
-    border-width: 3px !important;
-    color: white !important;
-  }
-  .opt-btn.disabled-other {
-    background: #d9d9d9 !important;
-    border-color: #b3b3b3 !important;
-    border-width: 2px !important;
-    color: #666 !important;
-  }
-  #result-label {
-    font-size: 20px;
-    font-weight: 700;
-    text-align: center;
-    padding: 10px 0;
-    min-height: 44px;
-  }
+  .opt-btn.correct { background: #4dcc4d !important; border-color: green !important; border-width: 3px !important; color: white !important; }
+  .opt-btn.wrong { background: #ff4d4d !important; border-color: red !important; border-width: 3px !important; color: white !important; }
+  .opt-btn.disabled-other { background: #d9d9d9 !important; border-color: #b3b3b3 !important; border-width: 2px !important; color: #666 !important; }
+  #result-label { font-size: 20px; font-weight: 700; text-align: center; padding: 10px 0; min-height: 44px; }
   #result-label.correct-text { color: green; }
   #result-label.wrong-text { color: red; }
-
-  /* شريط الأزرار داخل السؤال */
-  #quiz-controls {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #eee;
-  }
+  #quiz-controls { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; }
   .quiz-ctrl-btn {
-    flex: 1;
-    padding: 12px 8px;
-    font-size: 15px;
-    font-weight: 700;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    transition: filter 0.15s;
+    flex: 1; padding: 12px 8px; font-size: 15px; font-weight: 700;
+    border-radius: 12px; border: none; cursor: pointer; transition: filter 0.15s;
   }
   .quiz-ctrl-btn:active { filter: brightness(0.9); }
-  .quiz-ctrl-btn.retry {
-    background: #ffcc33;
-    color: #111;
-  }
-  .quiz-ctrl-btn.home {
-    background: #d9d9d9;
-    color: #333;
-    border: 1px solid #bfbfbf;
-  }
-
+  .quiz-ctrl-btn.retry { background: #ffcc33; color: #111; }
+  .quiz-ctrl-btn.home { background: #d9d9d9; color: #333; border: 1px solid #bfbfbf; }
   #results {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 20px;
-    text-align: center;
-    overflow-y: auto;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; padding: 20px; text-align: center; overflow-y: auto;
   }
-  #results h2 {
-    font-size: 26px;
-    margin-bottom: 12px;
-    color: #111;
-  }
+  #results h2 { font-size: 26px; margin-bottom: 12px; color: #111; }
   #results .info { font-size: 22px; font-weight: 700; color: #595959; margin-bottom: 16px; }
   #results .final-score { font-size: 26px; font-weight: 700; color: #1a66e6; margin-bottom: 8px; }
   #results .percent { font-size: 34px; font-weight: 700; color: #1a66e6; margin-bottom: 12px; }
   #results .rating { font-size: 26px; font-weight: 700; margin-bottom: 24px; }
   .result-btn {
-    display: block;
-    width: 100%;
-    max-width: 360px;
-    padding: 14px;
-    margin-bottom: 12px;
-    font-size: 20px;
-    font-weight: 700;
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    color: white;
+    display: block; width: 100%; max-width: 360px; padding: 14px; margin-bottom: 12px;
+    font-size: 20px; font-weight: 700; border: none; border-radius: 16px;
+    cursor: pointer; color: white;
   }
   .result-btn.replay { background: #ff9933; }
   .result-btn.continue { background: #1aa633; }
   .result-btn.back { background: #ebebeb; color: #111; border: 1px solid #bfbfbf; }
   .result-btn:active { filter: brightness(0.9); }
-
-  /* صفحة الإحصائيات النهائية */
   #final-results {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100%;
-    padding: 20px 16px;
-    overflow-y: auto;
-    text-align: center;
+    display: none; flex-direction: column; align-items: center;
+    justify-content: flex-start; height: 100%; padding: 20px 16px;
+    overflow-y: auto; text-align: center;
   }
-  #final-results h2 {
-    font-size: 24px;
-    margin-bottom: 16px;
-    color: #111;
-  }
+  #final-results h2 { font-size: 24px; margin-bottom: 16px; color: #111; }
   .stats-table {
-    width: 100%;
-    max-width: 460px;
-    border-collapse: collapse;
-    margin-bottom: 16px;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
+    width: 100%; max-width: 460px; border-collapse: collapse; margin-bottom: 16px;
+    background: white; border-radius: 12px; overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
-  .stats-table th {
-    background: #1a66e6;
-    color: white;
-    padding: 10px 6px;
-    font-size: 14px;
-    font-weight: 700;
-  }
-  .stats-table td {
-    padding: 10px 6px;
-    font-size: 14px;
-    border-bottom: 1px solid #f0f0f0;
-  }
+  .stats-table th { background: #1a66e6; color: white; padding: 10px 6px; font-size: 14px; font-weight: 700; }
+  .stats-table td { padding: 10px 6px; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
   .stats-table tr:nth-child(even) td { background: #fafafa; }
   .stats-table tr:last-child td { border-bottom: none; }
-  .stats-table .stage-name-cell {
-    font-weight: 700;
-    font-size: 13px;
-  }
+  .stats-table .stage-name-cell { font-weight: 700; font-size: 13px; }
   .stats-table .good { color: green; font-weight: 700; }
   .stats-table .bad { color: red; font-weight: 700; }
-
-  .final-percent {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1a66e6;
-    margin-bottom: 8px;
-  }
-  .final-rating {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 24px;
-  }
+  .final-percent { font-size: 32px; font-weight: 700; color: #1a66e6; margin-bottom: 8px; }
+  .final-rating { font-size: 26px; font-weight: 700; margin-bottom: 24px; }
 </style>
 </head>
 <body>
@@ -312,6 +165,17 @@
     <div id="color-circle-wrap" style="display:none;">
       <div id="color-circle"></div>
     </div>
+
+    <!-- المرحلة العاشرة: إدخال نصي -->
+    <div id="spelling-wrap">
+      <div id="spelling-emoji">🔊</div>
+      <input type="text" id="spelling-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="اكتب الكلمة هنا...">
+      <div id="spelling-buttons">
+        <button class="spelling-btn replay" id="btn-spelling-replay">🔁 أعد النطق</button>
+        <button class="spelling-btn check" id="btn-spelling-check">✅ تحقق</button>
+      </div>
+    </div>
+
     <div id="errors-label"></div>
     <div id="score-label"></div>
     <div id="name-label"></div>
@@ -327,7 +191,10 @@
 </div>
 
 <script>
-// ======================= DATA =======================
+// =================================================================
+// ============  بيانات المراحل 1-4  ============
+// =================================================================
+
 const fruitQuestions = [
   {"arabic":"🍎 تفاحة 🍎","correct":"Apple","question":"ما هو الاسم الإنجليزي لهذه الفاكهة؟"},
   {"arabic":"🍌 موز 🍌","correct":"Banana","question":"ما هو الاسم الإنجليزي لهذه الفاكهة؟"},
@@ -497,8 +364,7 @@ const houseQuestions = [
   {"arabic":"🪟 مكيف هواء","correct":"Air Conditioner","question":"ما هو الاسم الإنجليزي لهذا الجهاز؟"},
   {"arabic":"🌀 مروحة","correct":"Fan","question":"ما هو الاسم الإنجليزي لهذا الجهاز؟"}
 ];
-
-const verbQuestions = [
+ const verbQuestions = [
   {"arabic":"🔵 يتصل","correct":"Calling","question":"ما هو الفعل بالإنجليزية؟"},
   {"arabic":"🔵 امشط","correct":"Comb","question":"ما هو الفعل بالإنجليزية؟"},
   {"arabic":"🔵 اركل","correct":"Kick","question":"ما هو الفعل بالإنجليزية؟"},
@@ -994,7 +860,7 @@ const jobsQuestions = [
   {"arabic":"🍽️ خدمة الغرف","correct":"Room Service","question":"ما هو الاسم الإنجليزي لهذه العبارة؟"}
 ];
 
-// ======================= STAGE 9: NUMBERS =======================
+// ======================= المرحلة 9: الأرقام =======================
 function generateNumberQuestions() {
   const pool = [];
   for (let i = 1; i <= 100; i++) pool.push(i);
@@ -1015,31 +881,67 @@ function generateNumberQuestions() {
   }
   return result;
 }
-
 let numberQuestions = generateNumberQuestions();
 
-// ======================= EMOJI MAPS =======================
-const emojiMaps = {
-  1: {"Apple":"🍎","Banana":"🍌","Orange":"🍊","Strawberry":"🍓","Grapes":"🍇","Watermelon":"🍉","Lemon":"🍋","Mango":"🥭","Pineapple":"🍍","Peach":"🍑","Pear":"🍐","Kiwi":"🥝","Coconut":"🥥","Cherry":"🍒","Melon":"🍈","Avocado":"🥑","Tomato":"🍅","Carrot":"🥕","Potato":"🥔","Cucumber":"🥒","Corn":"🌽","Broccoli":"🥦","Lettuce":"🥬","Zucchini":"🥒","Eggplant":"🍆","Pepper":"🫑","Onion":"🧅","Garlic":"🧄","Spinach":"🥬","Peas":"🫛","Chili Pepper":"🌶️","Cabbage":"🥬","Green Beans":"🫛"},
-  3: {"School":"🏫","Classroom":"🚪","Playground":"⚽","Laboratory":"🧪","Cafeteria":"🍽️","Theater":"🎭","Principal":"👨‍💼","Vice Principal":"👨‍💼","Supervisor":"🧑‍💼","Teacher":"👨‍🏫","Student":"🧑‍🎓","Classmate":"👫","Chair":"🪑","Table":"🪑","Whiteboard":"⬜","Pencil":"✏️","Pen":"🖊️","Eraser":"◻️","Pencil Sharpener":"✏️","Teacher's Desk":"🧑‍🏫","Recess":"⏰","Dismissal":"🚪","Book":"📖","Notebook":"📓","Ruler":"📏","School Bag":"🎒","Library":"📚","Restroom":"🚻","School Bus":"🚌","School Uniform":"👕","Homework":"📚","School Bell":"🔔","School Gate":"🚪"},
-  4: {"House":"🏠","Door":"🚪","Window":"🪟","Key":"🔑","Lock":"🔒","Wall":"🧱","Ceiling":"⬆️","Floor":"⬇️","Stairs":"🪜","Hallway":"🚶","Kitchen":"🍳","Refrigerator":"❄️","Freezer":"🧊","Gas Stove":"🔥","Electric Oven":"⚡","Microwave":"📻","Dishwasher":"🍽️","Kitchen Sink":"🚰","Faucet":"🚰","Kitchen Cabinet":"🗄️","Drawer":"🗃️","Knife":"🔪","Spoon":"🥄","Fork":"🍴","Teaspoon":"🥄","Plate":"🍽️","Bowl":"🥣","Cup":"🥛","Glass":"🥤","Pot":"🍲","Frying Pan":"🍳","Cutting Board":"🔪","Kettle":"🫖","Blender":"🥤","Coffee Maker":"☕","Trash Can":"🗑️","Majlis":"🛋️","Sofa":"🛋️","Armchair":"🪑","Curtain":"🪟","Rug":"🧶","Television":"📺","Remote Control":"🎛️","Lamp":"💡","Cushion":"🛋️","Bedroom":"🛏️","Bed":"🛏️","Mattress":"🛏️","Pillow":"🛌","Blanket":"🛌","Clothes":"👕","Wardrobe":"🚪","Mirror":"🪞","Hanger":"🪝","Bathroom":"🚿","Toilet":"🚽","Shower":"🚿","Bathtub":"🛁","Soap":"🧼","Shampoo":"🧴","Toothbrush":"🪥","Toothpaste":"🧴","Dining Room":"🍽️","Dining Table":"🍽️","Dining Chair":"🪑","Napkin":"🧻","Laundry Room":"🧺","Washing Machine":"🧺","Dryer":"♨️","Laundry Basket":"🧺","Iron":"👔","Air Conditioner":"❄️","Fan":"🌀"},
-  5: {"Calling":"🔵","Comb":"🔵","Kick":"🔵","Play":"🔵","Buy":"🔵","Imagine":"🔵","Opening":"🔵","Carrying":"🔵","Look":"🔵","Jumping":"🔵","Read":"🔵","Took":"🔵","Listen":"🔵","Called":"🔵","Cut":"🔵","Give":"🔵","Eating":"🔵","Held":"🔵","Coming":"🔵","Drink":"🔵","Run":"🔵","Sitting":"🔵","Bought":"🔵","Imagining":"🔵","Carried":"🔵","Looked":"🔵","Crying":"🔵","Smelled":"🔵","Running":"🔵","Kicking":"🔵","Writing":"🔵","Drive":"🔵","Going":"🔵","Hold":"🔵","Come":"🔵","Say":"🔵","Combing":"🔵","Jumped":"🔵","Touch":"🔵","Stand":"🔵","Slept":"🔵","Closed":"🔵","Open":"🔵","Tie":"🔵","Carry":"🔵","Dreamed":"🔵","Hit":"🔵","Wrote":"🔵","Came":"🔵","Tying":"🔵","Seeing":"🔵","Dreaming":"🔵","Opened":"🔵","Giving":"🔵","Eat":"🔵","Smell":"🔵","Cried":"🔵","Sing":"🔵","Hitting":"🔵","Danced":"🔵","Driving":"🔵","Drinking":"🔵","Heard":"🔵","Buying":"🔵","Write":"🔵","Swam":"🔵","Singing":"🔵","Cry":"🔵","Walking":"🔵","Sit":"🔵","Ate":"🔵","Tasting":"🔵","Reading":"🔵","Dancing":"🔵","Stood":"🔵","Holding":"🔵","Saying":"🔵","Smelling":"🔵","Take":"🔵","Sang":"🔵","Close":"🔵","Touching":"🔵","Taste":"🔵","Saw":"🔵","Sat":"🔵","Gave":"🔵","Imagined":"🔵","Tied":"🔵","Jump":"🔵","Combed":"🔵","Hearing":"🔵","Played":"🔵","Call":"🔵","Swim":"🔵","Go":"🔵","Playing":"🔵","Looking":"🔵","Sleeping":"🔵","Cutting":"🔵","Touched":"🔵","Said":"🔵","Drank":"🔵","Ran":"🔵","Went":"🔵","Walk":"🔵","Dance":"🔵","Swimming":"🔵","Tasted":"🔵","Drove":"🔵","Walked":"🔵","Kicked":"🔵","Taking":"🔵","Standing":"🔵","Dream":"🔵","Sleep":"🔵","Closing":"🔵"},
-  6: {"Body":"🧍","Head":"🙂","Hair":"💇","Eyebrows":"🤨","Eye":"👁️","Ear":"👂","Nose":"👃","Mouth":"👄","Moustache":"🥸","Beard":"🧔","Cheek":"😊","Neck":"🧍","Chest":"🫁","Abdomen":"🫃","Arm":"💪","Elbow":"💪","Hand":"✋","Fingers":"🖐️","Nail":"💅","Knee":"🦵","Leg":"🦵","Foot":"🦶","Heart":"❤️","Liver":"🫀","Stomach":"🫃","Teeth":"🦷","Tongue":"👅","Lips":"👄","Lung":"🫁","Pancreas":"🫀","Stomachache":"🤕","Headache":"🤕","Toothache":"🦷","Fever":"🤒","Cough":"😷","Sneezing":"🤧","Eyeglasses":"👓","Sunglasses":"🕶️","Socks":"🧦","Shoes":"👟","Slippers":"🩴","Pants":"👖","Belt":"🧷","Shirt":"👕","Jacket":"🧥","Wristwatch":"⌚","Underwear":"🩲","Glove":"🧤","Strong":"💪","Weak":"🧍","Tall":"📏","Short":"📏","Bald":"👨‍🦲","Blind":"🙈","Mute":"🤐","Beautiful":"😍","Ugly":"😖","Muscular":"💪","Athletic":"🏃","Crazy":"🤪","Sick":"🤒","Healthy":"😊","Vegetarian":"🥬","Male":"👨","Female":"👩","Man":"👨","Woman":"👩","Child":"👦","Teenager":"🧑","Married":"💍","Single":"🙋","Widow":"👩","Widower":"👨","Divorced":"💔","Father":"👨‍👧","Mother":"👩‍👧","Grandfather":"👴","Grandmother":"👵","Maternal Uncle":"👨","Maternal Aunt":"👩","Paternal Uncle":"👨","Paternal Aunt":"👩","Cousin":"👦","Brother":"👦","Sister":"👧","Nephew":"👦","Grandchild":"👶","Infant":"👶","Elderly":"👴","Old Man":"👴","Adult":"🧑","Sane":"🧠","Arrogant":"😒","Conceited":"😎","Generous":"🤲","Stingy":"💰","Brave":"🦁","Coward":"😨","African":"🌍","Asian":"🌏","Foreigner":"🌎","Western":"🌍","Arab":"🌍","Gulf Arab":"🌴"},
-  7: {"Transportation":"🚗","Location":"📍","Car":"🚗","Airplane":"✈️","Train":"🚆","Railway":"🛤️","Steam Train":"🚂","Wheel":"🛞","Wings":"🪽","Landing":"🛬","Takeoff":"🛫","Travel Ticket":"🎫","Boarding Pass":"🎫","Departure Time":"⏰","Flight Cancellation":"❌","Flight Delayed":"⏳","Fasten Your Seatbelt":"🔒","Seat Number":"💺","Aisle":"🚶","Waiting for the Flight":"⏳","Flight Crew":"👨‍✈️","Flight Attendant":"🧑‍✈️","Cockpit":"🛩️","Steering Wheel":"🚗","Car Seat":"💺","Driver":"🚗","Passenger":"🧑‍🦱","Driving License":"🪪","Vehicle Registration":"📄","Car Insurance":"🛡️","License Plate":"🔢","Spare Tire":"🛞","Engine":"⚙️","Hood":"🚗","Trunk":"🧳","Windshield Wipers":"🪟","Windshield Washer Fluid":"💧","Accident":"💥","Overtaking":"↔️","Speed":"🏎️","Park":"🅿️","Drive Forward":"➡️","Reverse":"⬅️","Right Turn Signal":"➡️","Left Turn Signal":"⬅️","New Car":"🆕","Old Car":"🚗","Truck":"🚚","Trailer":"🚛","Six Wheels":"🛞","Dump Truck":"🚛","Shovel":"🪏","Crane":"🏗️","Steamship":"🚢","Ship":"🚢","Boat":"🛥️","Cruise":"🛳️","Oars":"🚣","Sea":"🌊","Ocean":"🌊","Sailing Ship":"⛵","Ship Captain":"⚓","Pirates":"🏴‍☠️"},
-  8: {"Doctor":"👨‍⚕️","Nurse":"👩‍⚕️","X-ray":"🩻","Dentist":"🦷","Orthopedic Doctor":"🦴","Internal Medicine Doctor":"🩺","Neurologist":"🧠","Health Insurance":"🛡️","Emergency Room":"🚨","Intensive Care Unit":"🏥","Ambulance":"🚑","Hospital Admission":"🛏️","Hospital Discharge":"🚪","Wheelchair":"♿","Blood Test":"🩸","ECG":"❤️","Hospital":"🏥","Clinic":"🏥","Private Hospital":"🏥","Government Hospital":"🏥","Infectious Disease":"🦠","Examination":"🔍","Diagnosis":"🩺","Prescription":"📋","Medicine":"💊","Pharmacy":"💊","Engineer":"👷","Chemical Engineer":"🧪","Mechanical Engineer":"⚙️","Architect":"🏗️","Surgeon":"👨‍⚕️","Building":"🏢","Factory":"🏭","Office":"💼","Worker":"👷","Tools":"🛠️","Operator":"⚙️","Boss":"👔","Injury":"🤕","Wound":"🩹","Shortness of Breath":"😮‍💨","Lawyer":"⚖️","Case":"📁","Defendant":"👤","Judge":"👨‍⚖️","Law":"⚖️","Court":"🏛️","Innocent":"✅","Guilty":"❌","Prosecution":"⚖️","Objection":"↩️","Witness":"🧑‍⚖️","Forgery":"📄","Embezzlement":"💰","Murder":"⚠️","Rape":"⚠️","Fight":"🥊","Verdict":"⚖️","Appeal":"📑","Prison":"🔒","Life Imprisonment":"🔒","Retribution":"⚖️","Evidence":"🔎","Documents":"📄","Cook":"👨‍🍳","Head Chef":"👨‍🍳","Waiter":"🍽️","Cleaner":"🧹","Reserved":"📅","Table Reservation":"🍽️","Appetizers":"🥟","Salad":"🥗","Soup":"🍲","Pastries":"🥐","Meat":"🥩","Chicken":"🍗","Menu":"📖","Price List":"💵","Bill":"🧾","Payment":"💳","Please":"🙏","Dessert":"🍰","Meals":"🍽️","Main Course":"🍽️","Offers":"🏷️","Discount":"🏷️","Take Away the Leftovers":"🥡","Put It in a Box":"📦","Car Mechanic":"🔧","Workshop":"🔧","Oil Change":"🛢️","Filter Change":"🔩","Police":"👮","Police Officer":"👮","Police Car":"🚓","Traffic Police Car":"🚔","Police Station":"🏢","Traffic Ticket":"📄","Speeding Ticket":"🚗💨","Red-Light Ticket":"🚦","Baker":"🥖","Bakery Oven":"🔥","Bakery":"🥖","Bread":"🍞","Pastry Chef":"🍰","Pastry Shop":"🍰","Barber":"💇","Barbershop":"💈","Scissors":"✂️","Hair Clipper":"💈","Tailor":"🧵","Tailor Shop":"🧵","Sewing Machine":"🪡","Needle":"🪡","Thread":"🧵","Fabric":"👕","Fabric Scissors":"✂️","Carpenter":"🪚","Carpentry":"🪚","Hammer":"🔨","Wood":"🪵","Screwdriver":"🪛","Plumber":"🔧","Pipe":"🔧","Water Leak":"💧","Pipe Wrench":"🔧","Electrician":"⚡","Electricity":"⚡","Electrical Wire":"🔌","Light Switch":"💡","Light Bulb":"💡","Electrical Panel":"⚡","Farmer":"👨‍🌾","Farm":"🌾","Tractor":"🚜","Field":"🌾","Crop":"🌾","Well":"💧","Farm Animal":"🐄","Fisherman":"🎣","Fishing Boat":"🚤","Fishing Net":"🕸️","Fish":"🐟","Harbor":"⚓","Taxi Driver":"🚕","Taxi":"🚕","Taxi Stand":"🚕","Fare":"💵","Bus Driver":"🚌","Bus":"🚌","Bus Station":"🚌","Ticket":"🎫","Station":"🚏","Pilot":"✈️","Airport":"🛫","Traveler":"🧳","Passport":"🛂","Gate":"🚪","Suitcase":"🧳","Airplane Seat":"💺","Seat Belt":"🔒","Flight Ticket":"🎫","Anchor":"⚓","Sailor":"👨‍✈️","Exam":"📝","Firefighter":"🚒","Fire Truck":"🚒","Fire Station":"🚒","Fire":"🔥","Fire Hose":"💦","Fire Extinguisher":"🧯","Construction Worker":"👷","Construction Site":"🏗️","Cement":"🧱","Brick":"🧱","Helmet":"⛑️","Cleaning Company":"🧹","Broom":"🧹","Mop":"🧹","Trash Bin":"🗑️","Garbage":"🗑️","Bank Employee":"🏦","Bank":"🏦","ATM":"🏧","Money":"💵","Bank Card":"💳","Bank Account":"🏦","Salesperson":"🛍️","Store":"🏪","Customer":"🧑","Price":"💰","Product":"📦","Cashier":"💳","Checkout":"🛒","Hotel Receptionist":"🏨","Hotel":"🏨","Room":"🚪","Room Key":"🔑","Guest":"🧳","Elevator":"🛗","Room Service":"🍽️"}
-};
+// ======================= المرحلة 10: الإملاء (كتابة الكلمة) =======================
+function buildAllWordsPool() {
+  const pool = [];
+  const sources = [fruitQuestions, colorQuestions, schoolQuestions, houseQuestions,
+                   verbQuestions, bodyQuestions, transportQuestions, jobsQuestions];
+  const seen = new Set();
+  sources.forEach(arr => {
+    arr.forEach(q => {
+      const w = (q.correct || "").trim();
+      if (!w) return;
+      const key = w.toLowerCase();
+      if (!seen.has(key)) { seen.add(key); pool.push(w); }
+    });
+  });
+  return pool;
+}
 
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generateStage10Questions() {
+  const pool = buildAllWordsPool();
+  const shuffled = shuffleArray(pool);
+  const chosen = shuffled.slice(0, Math.min(20, shuffled.length));
+  return chosen.map(word => ({
+    arabic: word,
+    correct: word,
+    question: "✍️ اكتب الكلمة التي تسمعها",
+    isSpelling: true
+  }));
+}
+let stage10Questions = generateStage10Questions();
+
+// ======================= استخراج الإيموجي من نص السؤال =======================
+function extractEmoji(arabicText) {
+  if (!arabicText) return "❓";
+  // نمط يلتقط الإيموجي (المدى الأساسي + الرموز + الأعلام + رموز متنوعة)
+  const emojiRegex = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{1F1E6}-\u{1F1FF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/u;
+  const match = arabicText.match(emojiRegex);
+  return match ? match[0] : "❓";
+}
 // ======================= STATE =======================
 const stageData = {
-  1: {questions: fruitQuestions, name: "المرحلة الأولى 🍎🥕", shortName: "الأولى 🍎🥕", score: 0, wrong: 0},
-  2: {questions: colorQuestions, name: "المرحلة الثانية 🎨", shortName: "الثانية 🎨", score: 0, wrong: 0},
-  3: {questions: schoolQuestions, name: "المرحلة الثالثة 🏫", shortName: "الثالثة 🏫", score: 0, wrong: 0},
-  4: {questions: houseQuestions, name: "المرحلة الرابعة 🏠", shortName: "الرابعة 🏠", score: 0, wrong: 0},
-  5: {questions: verbQuestions, name: "المرحلة الخامسة 🔤", shortName: "الخامسة 🔤", score: 0, wrong: 0},
-  6: {questions: bodyQuestions, name: "المرحلة السادسة 🧍", shortName: "السادسة 🧍", score: 0, wrong: 0},
-  7: {questions: transportQuestions, name: "المرحلة السابعة 🚗✈️", shortName: "السابعة 🚗✈️", score: 0, wrong: 0},
-  8: {questions: jobsQuestions, name: "المرحلة الثامنة 👨‍⚕️👷", shortName: "الثامنة 👨‍⚕️👷", score: 0, wrong: 0},
-  9: {questions: numberQuestions, name: "المرحلة التاسعة 🔢", shortName: "التاسعة 🔢", score: 0, wrong: 0}
+  1: {questions: fruitQuestions,     name: "المرحلة الأولى 🍎🥕",   shortName: "الأولى 🍎🥕",       score: 0, wrong: 0},
+  2: {questions: colorQuestions,     name: "المرحلة الثانية 🎨",    shortName: "الثانية 🎨",        score: 0, wrong: 0},
+  3: {questions: schoolQuestions,    name: "المرحلة الثالثة 🏫",    shortName: "الثالثة 🏫",        score: 0, wrong: 0},
+  4: {questions: houseQuestions,     name: "المرحلة الرابعة 🏠",    shortName: "الرابعة 🏠",        score: 0, wrong: 0},
+  5: {questions: verbQuestions,      name: "المرحلة الخامسة 🔤",    shortName: "الخامسة 🔤",        score: 0, wrong: 0},
+  6: {questions: bodyQuestions,      name: "المرحلة السادسة 🧍",    shortName: "السادسة 🧍",        score: 0, wrong: 0},
+  7: {questions: transportQuestions, name: "المرحلة السابعة 🚗✈️",  shortName: "السابعة 🚗✈️",     score: 0, wrong: 0},
+  8: {questions: jobsQuestions,      name: "المرحلة الثامنة 👨‍⚕️👷", shortName: "الثامنة 👨‍⚕️👷",  score: 0, wrong: 0},
+  9: {questions: numberQuestions,    name: "المرحلة التاسعة 🔢",    shortName: "التاسعة 🔢",        score: 0, wrong: 0},
+  10:{questions: stage10Questions,   name: "المرحلة العاشرة ✍️",    shortName: "العاشرة ✍️",        score: 0, wrong: 0}
 };
 
 let currentStage = 1;
@@ -1056,6 +958,7 @@ let voiceTimers = [];
 // إحصائيات كل مرحلة في وضع "جميع المراحل"
 let allStagesStats = {};
 
+// عناصر DOM
 const stageSel = document.getElementById("stage-selection");
 const stageButtonsContainer = document.getElementById("stage-buttons-container");
 const quizDiv = document.getElementById("quiz");
@@ -1073,6 +976,11 @@ const optionsDiv = document.getElementById("options");
 const resultLabel = document.getElementById("result-label");
 const btnRetryStage = document.getElementById("btn-retry-stage");
 const btnHome = document.getElementById("btn-home");
+const spellingWrap = document.getElementById("spelling-wrap");
+const spellingInput = document.getElementById("spelling-input");
+const spellingEmoji = document.getElementById("spelling-emoji");
+const btnSpellingCheck = document.getElementById("btn-spelling-check");
+const btnSpellingReplay = document.getElementById("btn-spelling-replay");
 
 // ======================= SPEECH =======================
 function speak(text) {
@@ -1093,7 +1001,7 @@ function clearTimers() {
 
 // ======================= STAGE SELECTION =======================
 const stageButtonsData = [
-  ["📚  جميع المراحل\nمن الأولى إلى التاسعة", 0],
+  ["📚  جميع المراحل\nمن الأولى إلى العاشرة", 0],
   ["🍎🥕  المرحلة الأولى\nالفواكه والخضروات", 1],
   ["🎨  المرحلة الثانية\nالألوان", 2],
   ["🏫  المرحلة الثالثة\nالمدرسة", 3],
@@ -1102,7 +1010,8 @@ const stageButtonsData = [
   ["🧍  المرحلة السادسة\nالجسم وأجزاؤه", 6],
   ["🚗✈️  المرحلة السابعة\nالمواصلات", 7],
   ["👨‍⚕️👷  المرحلة الثامنة\nالوظائف وما حولها", 8],
-  ["🔢  المرحلة التاسعة\nالأرقام (1-100)", 9]
+  ["🔢  المرحلة التاسعة\nالأرقام (1-100)", 9],
+  ["✍️  المرحلة العاشرة\nاكتب الكلمة التي تسمعها", 10]
 ];
 
 function buildStageButtons() {
@@ -1111,6 +1020,7 @@ function buildStageButtons() {
     const btn = document.createElement("button");
     btn.className = "stage-btn";
     if (val === 0) btn.classList.add("all-stages");
+    if (val === 10) btn.classList.add("spelling-stage");
     btn.textContent = title;
     btn.onclick = () => selectStage(val);
     stageButtonsContainer.appendChild(btn);
@@ -1124,21 +1034,21 @@ function showStageSelection() {
   resultsDiv.style.display = "none";
   finalResultsDiv.style.display = "none";
   buildStageButtons();
-  // تصفير إحصائيات جميع المراحل
   for (let k in stageData) { stageData[k].score = 0; stageData[k].wrong = 0; }
   allStagesStats = {};
 }
 
 function selectStage(val) {
   clearTimers();
-  // إعادة توليد أسئلة الأرقام إذا لزم
+  // إعادة توليد أسئلة الأرقام والمرحلة العاشرة في كل مرة
   numberQuestions = generateNumberQuestions();
   stageData[9].questions = numberQuestions;
+  stage10Questions = generateStage10Questions();
+  stageData[10].questions = stage10Questions;
 
   if (val === 0) {
     allStagesMode = true;
     currentStage = 1;
-    // تصفير إحصائيات جميع المراحل
     for (let k in stageData) { stageData[k].score = 0; stageData[k].wrong = 0; }
     allStagesStats = {};
   } else {
@@ -1165,7 +1075,13 @@ function loadQuestion() {
   currentCorrect = q.correct;
   currentArabic = q.arabic;
 
-  // حالة المرحلة التاسعة: أرقام
+  // المرحلة 10: إملاء — لا خيارات
+  if (q.isSpelling) {
+    currentOptions = [];
+    return;
+  }
+
+  // المرحلة 9: أرقام
   if (q.isNumber) {
     const correctNum = q.number;
     const othersSet = new Set();
@@ -1184,6 +1100,7 @@ function loadQuestion() {
     return;
   }
 
+  // بقية المراحل: 4 خيارات
   const allWords = [];
   currentQuestions.forEach(item => {
     if (!allWords.includes(item.correct)) allWords.push(item.correct);
@@ -1213,6 +1130,34 @@ function renderQuestion() {
   questionLabel.textContent = q.question;
   stageLabel.textContent = stageData[currentStage].name;
 
+  // ============ المرحلة العاشرة: عرض الإدخال النصي ============
+  if (currentStage === 10) {
+    emojiDisplay.style.display = "none";
+    colorCircleWrap.style.display = "none";
+    nameLabel.style.display = "none";
+    optionsDiv.style.display = "none";
+    spellingWrap.style.display = "flex";
+    spellingEmoji.textContent = "🔊";
+    spellingInput.value = "";
+    spellingInput.className = "";
+    spellingInput.disabled = false;
+    btnSpellingCheck.disabled = true;
+    scoreLabel.textContent = `صح: ${stageData[currentStage].score}/${currentQuestions.length}`;
+    errorsLabel.textContent = `الأخطاء: ${stageData[currentStage].wrong}`;
+    resultLabel.textContent = "";
+    resultLabel.className = "";
+    // نطق الكلمة تلقائياً
+    voiceTimers.push(setTimeout(() => speak(currentCorrect), 400));
+    // فتح الكيبورد تلقائياً
+    voiceTimers.push(setTimeout(() => spellingInput.focus(), 600));
+    return;
+  }
+
+  // ============ بقية المراحل ============
+  spellingWrap.style.display = "none";
+  optionsDiv.style.display = "flex";
+
+  // المرحلة 9: نخفي الاسم والرقم
   if (currentStage === 9) {
     nameLabel.style.display = "none";
     nameLabel.textContent = "";
@@ -1237,8 +1182,8 @@ function renderQuestion() {
   } else {
     colorCircleWrap.style.display = "none";
     emojiDisplay.style.display = "flex";
-    const map = emojiMaps[currentStage] || {};
-    emojiDisplay.textContent = map[currentCorrect] || (currentStage === 3 ? "🏫" : currentStage === 4 ? "🏠" : currentStage === 5 ? "🔵" : currentStage === 6 ? "🧍" : currentStage === 7 ? "🚗" : currentStage === 8 ? "👨‍⚕️" : "❓");
+    // ✅ استخدام extractEmoji بدل emojiMaps
+    emojiDisplay.textContent = extractEmoji(q.arabic);
   }
 
   optionsDiv.innerHTML = "";
@@ -1304,6 +1249,62 @@ function chooseAnswer(idx) {
   }
 }
 
+// ======================= منطق المرحلة 10: التحقق من الكتابة =======================
+function normalizeSpelling(str) {
+  return (str || "")
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+function isSpellingCorrect(userInput, correctWord) {
+  const u = normalizeSpelling(userInput);
+  const c = normalizeSpelling(correctWord);
+  if (!u) return false;
+  if (u === c) return true;
+  // نقبل بدون مسافات (schoolbus == school bus)
+  if (u.replace(/\s+/g, "") === c.replace(/\s+/g, "")) return true;
+  return false;
+}
+
+function checkSpellingAnswer() {
+  if (answered) return;
+  const userInput = spellingInput.value.trim();
+  if (!userInput) return;
+  answered = true;
+
+  const isCorrect = isSpellingCorrect(userInput, currentCorrect);
+
+  if (isCorrect) {
+    stageData[currentStage].score++;
+  } else {
+    stageData[currentStage].wrong++;
+  }
+  scoreLabel.textContent = `صح: ${stageData[currentStage].score}/${currentQuestions.length}`;
+  errorsLabel.textContent = `الأخطاء: ${stageData[currentStage].wrong}`;
+
+  spellingInput.disabled = true;
+  btnSpellingCheck.disabled = true;
+
+  if (isCorrect) {
+    spellingInput.classList.add("correct-input");
+    resultLabel.textContent = "✅ صحيح! أحسنت! 🎉";
+    resultLabel.className = "correct-text";
+    speak(currentCorrect);
+    transitionTimer = setTimeout(() => nextQuestion(), 2000);
+  } else {
+    spellingInput.classList.add("wrong-input");
+    resultLabel.textContent = `❌ خطأ! الإجابة الصحيحة: ${currentCorrect}`;
+    resultLabel.className = "wrong-text";
+    speak(currentCorrect);
+    voiceTimers.push(setTimeout(() => {
+      speak(currentCorrect);
+      voiceTimers.push(setTimeout(() => nextQuestion(), 1200));
+    }, 1200));
+  }
+}
+
 function nextQuestion() {
   clearTimers();
   if (currentIndex < currentQuestions.length - 1) {
@@ -1312,9 +1313,7 @@ function nextQuestion() {
     loadQuestion();
     renderQuestion();
   } else {
-    // انتهت المرحلة الحالية
     if (allStagesMode) {
-      // احفظ إحصائيات المرحلة الحالية
       allStagesStats[currentStage] = {
         score: stageData[currentStage].score,
         wrong: stageData[currentStage].wrong,
@@ -1353,13 +1352,11 @@ function showResults() {
     <div class="rating" style="color:${ratingColor}">التقدير: ${rating}</div>
     <button class="result-btn replay" onclick="retryCurrentStage()">🔄 إعادة المرحلة</button>`;
 
-  // زر "كمل" فقط في وضع جميع المراحل
-  if (allStagesMode && currentStage < 9) {
+  if (allStagesMode && currentStage < 10) {
     html += `<button class="result-btn continue" onclick="continueToNextStage()">➡️ كمل</button>`;
   }
 
-  // لو وصلنا للمرحلة 9 في وضع جميع المراحل — زر لعرض الإحصائيات النهائية
-  if (allStagesMode && currentStage === 9) {
+  if (allStagesMode && currentStage === 10) {
     html += `<button class="result-btn continue" onclick="showFinalAllStagesResults()">🎓 عرض النتيجة النهائية</button>`;
   }
 
@@ -1390,7 +1387,7 @@ function showFinalAllStagesResults() {
       </thead>
       <tbody>`;
 
-  for (let s = 1; s <= 9; s++) {
+  for (let s = 1; s <= 10; s++) {
     const st = allStagesStats[s] || { score: 0, wrong: 0, total: 1, name: stageData[s].shortName };
     totalScore += st.score;
     totalQuestions += st.total;
@@ -1421,9 +1418,16 @@ function retryCurrentStage() {
   clearTimers();
   stageData[currentStage].score = 0;
   stageData[currentStage].wrong = 0;
-  // لو كنا في وضع جميع المراحل، أزل إحصائية هذه المرحلة فقط (سيُعاد احتسابها)
   if (allStagesMode && allStagesStats[currentStage]) {
     delete allStagesStats[currentStage];
+  }
+  if (currentStage === 9) {
+    numberQuestions = generateNumberQuestions();
+    stageData[9].questions = numberQuestions;
+  }
+  if (currentStage === 10) {
+    stage10Questions = generateStage10Questions();
+    stageData[10].questions = stage10Questions;
   }
   currentIndex = 0;
   answered = false;
@@ -1434,10 +1438,14 @@ function retryCurrentStage() {
 function continueToNextStage() {
   clearTimers();
   const next = currentStage + 1;
-  if (next > 9) { showFinalAllStagesResults(); return; }
+  if (next > 10) { showFinalAllStagesResults(); return; }
   if (next === 9) {
     numberQuestions = generateNumberQuestions();
     stageData[9].questions = numberQuestions;
+  }
+  if (next === 10) {
+    stage10Questions = generateStage10Questions();
+    stageData[10].questions = stage10Questions;
   }
   currentStage = next;
   currentIndex = 0;
@@ -1454,6 +1462,8 @@ function restartAllStages() {
   allStagesStats = {};
   numberQuestions = generateNumberQuestions();
   stageData[9].questions = numberQuestions;
+  stage10Questions = generateStage10Questions();
+  stageData[10].questions = stage10Questions;
   allStagesMode = true;
   currentStage = 1;
   currentIndex = 0;
@@ -1469,25 +1479,27 @@ function goHomeWithConfirm() {
   showStageSelection();
 }
 
-// ربط أزرار التحكم داخل السؤال
-btnRetryStage.onclick = () => {
-  clearTimers();
-  stageData[currentStage].score = 0;
-  stageData[currentStage].wrong = 0;
-  if (allStagesMode && allStagesStats[currentStage]) {
-    delete allStagesStats[currentStage];
+// ======================= ربط أحداث المرحلة العاشرة =======================
+spellingInput.addEventListener("input", () => {
+  const hasText = spellingInput.value.trim().length > 0;
+  btnSpellingCheck.disabled = !hasText || answered;
+});
+spellingInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    if (!btnSpellingCheck.disabled) checkSpellingAnswer();
   }
-  currentIndex = 0;
-  answered = false;
-  loadQuestion();
-  renderQuestion();
+});
+btnSpellingCheck.onclick = () => checkSpellingAnswer();
+btnSpellingReplay.onclick = () => {
+  if (!answered) speak(currentCorrect);
 };
 
-btnHome.onclick = () => {
-  goHomeWithConfirm();
-};
+// ======================= ربط أزرار التحكم =======================
+btnRetryStage.onclick = () => { retryCurrentStage(); };
+btnHome.onclick = () => { goHomeWithConfirm(); };
 
-// ربط الدوال بالنافذة
+// ======================= ربط الدوال بالنافذة =======================
 window.retryCurrentStage = retryCurrentStage;
 window.continueToNextStage = continueToNextStage;
 window.restartAllStages = restartAllStages;
@@ -1495,9 +1507,7 @@ window.showFinalAllStagesResults = showFinalAllStagesResults;
 window.goHomeWithConfirm = goHomeWithConfirm;
 window.showStageSelection = showStageSelection;
 
+// ======================= بدء التطبيق =======================
 window.onload = () => {
   showStageSelection();
 };
-</script>
-</body>
-</html>
